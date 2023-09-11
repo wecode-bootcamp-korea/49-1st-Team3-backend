@@ -6,6 +6,8 @@ app.post("/posts/create", async(req, res) => {
     res.status(201).json("POST_CREATED_SUCCESSFULLY");
 })
 
+    
+
 
 app.delete("/posts/delete", async(req, res) => {
     const deletePost = req.body;
@@ -14,11 +16,11 @@ app.delete("/posts/delete", async(req, res) => {
     res.status(201).json("POST_DELETED_SUCCESSFULLY");
 })
 
-app.update("/posts/update", async(req, res) => {
-    const updatePost = req.body;
-    const updatePostQuery = `UPDATE users SET columns = change value WHERE requirement`;
-    res.status(201).json("POST_DELETED_SUCCESSFULLY");
-})
+// app.update("/posts/update", async(req, res) => {
+//     const updatePost = req.body;
+//     const updatePostQuery = `UPDATE users SET columns = change value WHERE requirement`;
+//     res.status(201).json("POST_DELETED_SUCCESSFULLY");
+// })
 
 
 

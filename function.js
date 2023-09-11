@@ -5,6 +5,4 @@ function throwError (condition, message, code) {
         const error = new Error(message);
         error.status = Code
     }
-
-
 }
