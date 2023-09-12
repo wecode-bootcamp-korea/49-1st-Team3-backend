@@ -38,7 +38,7 @@ const logIn = async (req, res) => {
         SELECT email, password FROM users WHERE email = "${email}" 
         `);
 
-        if (!userCheckout == email) {
+        if (userCheckout.length === 0) {
             const error = new Error('잘못된 이메일 입니다.')
             error.statusCode = 400
             throw error
@@ -56,7 +56,7 @@ const logIn = async (req, res) => {
     }
 }
 
-// 다른 파일에서도 쓸 수 있게 만들어준다
+// 다른 파일에서도 쓸 수 있게 만들어줌
 module.exports = {
     logIn
 }
