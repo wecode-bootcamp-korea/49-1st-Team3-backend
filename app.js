@@ -1,10 +1,12 @@
 const http = require('http')
 const express = require('express')
 const cors = require('cors')
-const { DataSource, CancellationToken } = require('typeorm');
-const { createDecipheriv } = require('crypto');
+const { DataSource } = require('typeorm');
 const { error } = require('console');
 const app = express();
+const userService = require('./services/userService')
+const threads = require('./threadServices')
+
 
 app.use(cors());
 
@@ -14,7 +16,7 @@ const myDataSource = new DataSource({
   port: 3306,
   username: 'root',
   password: '',
-  database: 'westagram'
+  database: 'wethread'
  })
 
 
@@ -43,7 +45,12 @@ start();
 myDataSource.initialize().then(
     () => console.log("datasource initialized")
 )
+//user services
+app.post("/signUp", userServices.signUp);
 
+//thread services
+app.post("/postCreation", threadServices.postCreation);
+app.post("/postDeletion", threadServices.postDeletion);
+app.post("/postUpdate", threadServices.postUpdate)
+app.get("/postRead", threadServices.postRead)
 
-app.get("/posts")
-app.post("/users")
