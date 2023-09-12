@@ -7,13 +7,16 @@ const { DataSource } = require('typeorm');
 
 const myDataSource = new DataSource({
     type: 'mysql',
-    host: '127.0.0.1',
+    host: 'localhost',
     port: 3306,
     username: 'root',
     password: 'lhy',
     database: 'wethread'
 })
 
+myDataSource.initialize().then(() => {
+    console.log("Data Source has been initialized!")
+})
 // sooah - signup
 // hoyoung - login
 // sw - createThread
@@ -43,6 +46,9 @@ const logIn = async (req, res) => {
             error.statusCode = 400
             throw error
         }
+
+
+        console.log('사용자 정보!', userCheckout)
 
         return res.status(201).json({
             "message": "로그인 성공!"
