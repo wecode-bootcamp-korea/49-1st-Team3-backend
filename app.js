@@ -10,8 +10,9 @@ app.use(express.json()) // for parsing application/json
 
 app.get("/", async(req,res) => {
   try{
-    return res.status(200).json("welcome!")
-  } catch(error) {
+    return res.status(200).json(
+      {"message": "welcome!"}
+      )} catch(error) {
     console.log(error);
   }
 })

@@ -47,11 +47,25 @@ const logIn = async (req, res) => {
             throw error
         }
 
+        // 입력한 비밀번호 콘솔 출력
+        // DB에서 select 해온 비밀번호 콘솔 출력
+        // 같은지 출력
+        
+        console.log('body pw', req.body.password)
+        console.log("DB pw", userCheckout[0].password)
+
+        console.log(password === userCheckout[0].password)
+
+        if (password.length === 0) {
+            const error = new Error('잘못 된 비밀번호 입니다.')
+            error.statusCode = 400
+            throw error
+        }
 
         console.log('사용자 정보!', userCheckout)
 
         return res.status(201).json({
-            "message": "로그인 성공!"
+            "message": "login complete"
         });
 
     } catch (error) {
