@@ -2,8 +2,8 @@ const { DataSource } = require('typeorm');
 
 const postCreation = async(req, res) => {
     const inputPost = req.body;
-    const { content, users_id } = inputPost;
-    const newPost = myDataSource.query(`INSERT INTO users (users_id, content) VALUES ('${users_id}', '${content}')`)
+    const { content, user_id } = inputPost;
+    const newPost = myDataSource.query(`INSERT INTO users (user_id, content) VALUES ('${user_id}', '${content}')`)
     return res.status(201).json("POST_CREATED");
 }
 
