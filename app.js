@@ -1,22 +1,10 @@
 const http = require('http')
 const express = require('express')
 const cors = require('cors')
-const { DataSource, CancellationToken } = require('typeorm');
-const { createDecipheriv } = require('crypto');
-const { error } = require('console');
+const userService = require("./services/userService")
 const app = express();
 
 app.use(cors());
-
-const myDataSource = new DataSource({
-  type: 'mysql', 
-  host: '127.0.0.1', 
-  port: 3306,
-  username: 'root',
-  password: '',
-  database: 'westagram'
- })
-
 
 app.use(express.json()) // for parsing application/json
 
@@ -40,10 +28,4 @@ const start = async () => { // 서버를 시작하는 함수입니다.
 
 start();
 
-myDataSource.initialize().then(
-    () => console.log("datasource initialized")
-)
-
-
-app.get("/posts")
-app.post("/users")
+app.post("/signUp", userService.signUp) // sooah
