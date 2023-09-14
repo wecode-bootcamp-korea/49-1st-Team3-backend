@@ -189,7 +189,7 @@ const postUpdate = app.post("/postUpdate", async(req, res) => {
 //           if (err) {
 //             return res.status(401).json({ message: 'Unauthorized' });
 //           } else {
-//             req.decoded = decoded;
+//             return res.status(213).json("Logged in successfully")
 //             next();
 //           }
 //         });
@@ -199,7 +199,7 @@ const postUpdate = app.post("/postUpdate", async(req, res) => {
 //     };
 
 
-// if(!decoded) {
+// if(!token) {
 //   console.log("token_invalid")
 // } else {
 
