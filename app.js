@@ -18,7 +18,6 @@ const myDataSource = new DataSource({
   database: 'wethread'
  })
 
-
 app.use(express.json()) // for parsing application/json
 
 app.get("/", async(req,res) => {
