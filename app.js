@@ -160,18 +160,3 @@ const postUpdate = app.put("/postUpdate", async(req, res) => {
     console.log(error);
     return res.status(400).json("NOT_UPDATED");
 }})  
-  
-// const postRead = app.post("/postRead", async(req, res) => {
-//   try {
-//     const postReadId = req.body;
-//     postReadId = postReadId.id;
-//     const readPost = await myDataSource.query(`SELECT * FROM threads WHERE id = '${postReadId}'`)
-//     return res.status(201).json("POST_READ");}
-//   catch(error) {
-//     console.log(error)
-//     return res.status(400).json("UNREAD")
-//   }
-// })
-
-
-
