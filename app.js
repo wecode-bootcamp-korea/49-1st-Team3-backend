@@ -160,3 +160,5 @@ const postUpdate = app.put("/postUpdate", async(req, res) => {
     console.log(error);
     return res.status(400).json("NOT_UPDATED");
 }})  
+
+// 1
