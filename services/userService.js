@@ -1,72 +1,82 @@
-const { DataSource } = require('typeorm')
+const { json } = require('body-parser');
+const { log } = require('console');
+const { appendFile } = require('fs');
+const { request } = require('http');
+const { DataSource } = require('typeorm');
 
-// database 정보를 이용해서 새로운 연결을 만들어줌. make connection using database information.
 
 const myDataSource = new DataSource({
-  // give db information for connection. 연결을 할 수 있는 데이터베이스 정보를 줌.
-  type: 'mysql',
-  host: 'localhost',
-  port: 3306,
-  username: 'root',
-  password: '1234',
-  database: 'wethread'
+    type: 'mysql',
+    host: 'localhost',
+    port: 3306,
+    username: 'root',
+    password: 'lhy',
+    database: 'wethread'
 })
 
 myDataSource.initialize().then(() => {
-  console.log("Data Source has been initialized!")
+    console.log("Data Source has been initialized!")
 })
+// sooah - signup
+// hoyoung - login
+// sw - createThread
 
 
-const signUp = async (req, res) => {
-  try {
-    // 1. front request body에서 email과 password를 받아옴.
-    const { email, password, nickname } = req.body;
-    // console log로 email이랑 password 출력해서 잘 들어오는 지 확인하기
-    console.log(email, password, nickname)
-    // const newUser = await createUserInDatabase(email, password, name);
-    if (nickname === undefined) {
-      const error = new Error("input check plz");
-      error.statusCode = 400;
-      throw error;
+
+const logIn = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        console.log(email, password)
+        // 만약에 email password가 공란이면 
+        if (email === undefined || password === undefined) {
+            // error를 만들어서
+            const error = new Error("공란입니다~")
+            // error는 오류 코드 400이다
+            error.statusCode = 400
+            // error를 던져라
+            throw error
+        }
+
+        const userCheckout = await myDataSource.query(`
+        SELECT email, password FROM users WHERE email = "${email}" 
+        `);
+
+        if (userCheckout.length === 0) {
+            const error = new Error('잘못된 이메일 입니다.')
+            error.statusCode = 400
+            throw error
+        }
+
+        // 입력한 비밀번호 콘솔 출력
+        // DB에서 select 해온 비밀번호 콘솔 출력
+        // 같은지 출력
+        
+        console.log('body pw', req.body.password)
+        console.log("DB pw", userCheckout[0].password)
+
+        console.log(password === userCheckout[0].password)
+
+        if (password.length === 0) {
+            const error = new Error('잘못 된 비밀번호 입니다.')
+            error.statusCode = 400
+            throw error
+        }
+
+        console.log('사용자 정보!', userCheckout)
+
+        return res.status(201).json({
+            "message": "login complete"
+        });
+
+    } catch (error) {
+        console.error('로그인 오류 발생:', error);
+        return res.status(500), json({
+            error: '계정 또는 비밀번호를 확인해주세요.',
+        });
     }
-    const alreadySignUp = await myDataSource.query(`
-        SELECT id, email FROM users WHERE email = '${email}'
-      `)
-      
-    if (alreadySignUp.length > 0) {
-      const error = new Error("input check plz");
-      error.statusCode = 400;
-      throw error;
-    }
-
-    // 이메일이 중복되면 에러가 뜨도록 함.
-    // 데이터문을 이용해서 셀렉트문 가져오기. sql 수업자료 데이터 선택 하는 부분에서 특정 조건 거는 파트 찾아서 거기있는 문법 활용.
-
-
-    // 2. 받아온 email과 password를 데이터베이스 INSERT INTO문으로 입력함.
-    await myDataSource.query(`
-    INSERT INTO users
-     (email, password, nickname)
-    VALUES 
-    ('${email}', '${password}', '${nickname}');
-    `)
-
-    return res.status(201).json({
-      "message": "회원가입 완성!"
-    });
-
-
-  } catch (error) {
-    console.error('회원 가입 중 오류 발생:', error);
-    return res.status(500).json({
-      error: '서버 오류로 회원가입을 완료할 수 없습니다.',
-    });
-
-  }
 }
 
-
-// export function to enable 
+// 다른 파일에서도 쓸 수 있게 만들어줌
 module.exports = {
-  signUp
+    logIn
 }

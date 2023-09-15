@@ -3,15 +3,15 @@ const express = require('express')
 const cors = require('cors')
 const userService = require("./services/userService")
 const app = express();
-
 app.use(cors());
 
 app.use(express.json()) // for parsing application/json
 
 app.get("/", async(req,res) => {
   try{
-    return res.status(200).json("Welcome")
-  } catch(error) {
+    return res.status(200).json(
+      {"message": "welcome!"}
+      )} catch(error) {
     console.log(error);
   }
 })
@@ -28,4 +28,4 @@ const start = async () => { // 서버를 시작하는 함수입니다.
 
 start();
 
-app.post("/signUp", userService.signUp) // sooah
+app.post("/logIn", userService.logIn) // sooah
