@@ -2,7 +2,6 @@ const http = require('http')
 const express = require('express')
 const cors = require('cors')
 const userService = require("./services/userService")
-
 const app = express();
 app.use(cors());
 
@@ -28,9 +27,5 @@ const start = async () => { // 서버를 시작하는 함수입니다.
 }
 
 start();
- 
-app.post("/logIn", userService.logIn)
 
-// app.get("/posts")
-// app.post("/signUp", userServise.signUp)  sooah
-// app.post("/logIn", logIn)
+app.post("/logIn", userService.logIn) // sooah
